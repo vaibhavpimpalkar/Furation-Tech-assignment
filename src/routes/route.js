@@ -9,3 +9,5 @@ router.get ('/api/items',getallitems);
 router.put('/api/items/:id',updateitem);
 
 router.delete('/api/items/:id',deleteitem)
+
+module.exports=router;
