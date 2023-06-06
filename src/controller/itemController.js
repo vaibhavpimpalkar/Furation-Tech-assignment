@@ -1,4 +1,4 @@
-const itemModel = require("../models/itemModel");
+const itemModel = require("../model/itemModel");
 
 //  validation for checking valid object id
 
@@ -40,14 +40,41 @@ const createitem = async function (req, res) {
 //----------------------fetching data items------------------------------------
 const getallitems = async function (req, res) {
   try {
-    let condition = { isDeleted: false };
-    const items = await itemModel.find(condition);
+    let name = req.params.name
+    let condition = {isDeleted : false} 
+    if(!name ){
+      res.status(400).send({status: false , msg :" please provide name "})
+    }
+  if(name.isDeleted == false){
+  const items = await itemModel.find(condition)}
 
     res.status(200).send({ status: true, data: items });
   } catch (error) {
     res.status(500).send({ status: false, message: error.message });
   }
 };
+
+// ---------------------- fetching data ---------------------------------------//
+const getitembyId = async function (req, res) {
+  try {
+      const itemId = req.params.itemId
+
+      if (!isValidObjectId(itemid))
+      return res
+        .status(400)
+        .send({ status: false, msg: "Enter a valid Object Id" });      
+      // ------------------------------Find item ------------------------------  
+      const finditem = await itemModel.findOne({ _id: itemId })
+      if (!finditem) return res.status(404).send({ status: false, message: "No item found." })
+
+      
+      
+  } catch (err) {
+      return res.status(500).send({ status: false, message: err.message });
+    }
+
+}
+
 
 // ---------------------- data Updation of items--------------------------------
 const updateitem = async function (req, res) {
@@ -119,4 +146,4 @@ const deleteitem = async function (req, res) {
   }
 };
 
-module.exports = { createitem, getallitems, updateitem, deleteitem };
+module.exports = { createitem, getitembyId ,getallitems, updateitem, deleteitem };
